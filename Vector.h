@@ -1,7 +1,4 @@
-
 #pragma once
-#include <stdio.h>
-using namespace std;
 
 using ValueType = double;
 //! \brief Класс, реализующий С++ контейнер vector для типа int
@@ -94,6 +91,7 @@ public:
         const ValueType& operator*() const;
         ValueType* operator->();
         const ValueType* operator->() const;
+        Iterator operator++();
         Iterator operator++(int);
         bool operator==(const Iterator& other) const;
         bool operator!=(const Iterator& other) const;
@@ -109,4 +107,3 @@ private:
     size_t _capacity = 0; //! максимальный размер (количество элементов, под которое выделена память)
     float _multiplicativeCoef = 2.0f; //! коэффициент увеличения _capacity вектора при _size == _capacity
 };
-

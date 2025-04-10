@@ -49,17 +49,21 @@ Vector::~Vector() {
         delete[] _data;
     }
 void Vector::pushBack(const ValueType& value) {
+
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? 1 : static_cast<size_t>(_capacity * _multiplicativeCoef));
+            reserve(_capacity == 0 ? _multiplicativeCoef : static_cast<size_t>(_capacity * _multiplicativeCoef));
         }
         _data[_size++] = value;
     }
 
+void Vector::pushFront(const ValueType& value) {
+        insert(value, 0);
+}
 
 void Vector::insert(const ValueType& value, size_t pos) {
         if (pos > _size) pos = _size;
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? 1 : static_cast<size_t>(_capacity * _multiplicativeCoef));
+            reserve(_capacity == 0 ? _multiplicativeCoef : static_cast<size_t>(_capacity * _multiplicativeCoef));
         }
         for (size_t i = _size; i > pos; --i) {
             _data[i] = _data[i - 1];
@@ -68,9 +72,6 @@ void Vector::insert(const ValueType& value, size_t pos) {
         ++_size;
     }
 
-void Vector::pushFront(const ValueType& value) {
-        insert(value, 0);
-    }
 
 void Vector::insert(const ValueType* values, size_t size, size_t pos) {
         if (pos > _size) pos = _size;
@@ -94,7 +95,10 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
     }
 
     void Vector::popBack() {
-        if (_size > 0) --_size;
+        if(_size == 0){ 
+            throw -1;
+        }
+        --_size;
         
     }
 
@@ -109,6 +113,9 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
     }
 
     void Vector::popFront() {
+        if(_size == 0){ 
+            throw -1;
+        }
         erase(0, 1);
     }
     
@@ -155,7 +162,7 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
     const ValueType& Vector::Iterator::operator*() const { return *_ptr; }
     ValueType* Vector::Iterator::operator->() { return _ptr; }
     const ValueType* Vector::Iterator::operator->() const { return _ptr; }
-    Vector::Iterator& Vector::Iterator::operator++() { ++_ptr; return *this; }
+    Vector::Iterator Vector::Iterator::operator++() { ++_ptr; return *this; }
     Vector::Iterator Vector::Iterator::operator++(int) { Iterator tmp = *this; ++_ptr; return tmp; }
     bool Vector::Iterator::operator==(const Iterator& other) const { return _ptr == other._ptr; }
     bool Vector::Iterator::operator!=(const Iterator& other) const { return _ptr != other._ptr; }
