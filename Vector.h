@@ -89,15 +89,14 @@ public:
     {
         ValueType* _ptr;
     public:
-        explicit Iterator(ValueType* ptr) : _ptr(ptr) {}
-        ValueType& operator*() { return *_ptr; }
-        const ValueType& operator*() const { return *_ptr; }
-        ValueType* operator->() { return _ptr; }
-        const ValueType* operator->() const { return _ptr; }
-        Iterator& operator++() { ++_ptr; return *this; }
-        Iterator operator++(int) { Iterator tmp = *this; ++_ptr; return tmp; }
-        bool operator==(const Iterator& other) const { return _ptr == other._ptr; }
-        bool operator!=(const Iterator& other) const { return _ptr != other._ptr; }
+        explicit Iterator(ValueType* ptr);
+        ValueType& operator*();
+        const ValueType& operator*() const;
+        ValueType* operator->();
+        const ValueType* operator->() const;
+        Iterator operator++(int);
+        bool operator==(const Iterator& other) const;
+        bool operator!=(const Iterator& other) const;
     };
 
 	//! Получить итератор на начало вектора

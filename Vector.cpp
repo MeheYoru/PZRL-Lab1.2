@@ -150,6 +150,17 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
             _capacity = _size;
         }
     }
-    
+    Vector::Iterator::Iterator(ValueType* ptr) : _ptr(ptr) {}
+    ValueType& Vector::Iterator::operator*() { return *_ptr; }
+    const ValueType& Vector::Iterator::operator*() const { return *_ptr; }
+    ValueType* Vector::Iterator::operator->() { return _ptr; }
+    const ValueType* Vector::Iterator::operator->() const { return _ptr; }
+    Vector::Iterator& Vector::Iterator::operator++() { ++_ptr; return *this; }
+    Vector::Iterator Vector::Iterator::operator++(int) { Iterator tmp = *this; ++_ptr; return tmp; }
+    bool Vector::Iterator::operator==(const Iterator& other) const { return _ptr == other._ptr; }
+    bool Vector::Iterator::operator!=(const Iterator& other) const { return _ptr != other._ptr; }
+
+
+
     Vector::Iterator Vector::begin() { return Iterator(_data); }
     Vector::Iterator Vector::end() { return Iterator(_data + _size); }
