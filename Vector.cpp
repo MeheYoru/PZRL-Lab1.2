@@ -13,6 +13,17 @@ Vector::Vector(const Vector& other): _data(new ValueType[other._size]), _size(ot
         std::copy(other._data, other._data + _size, _data);
     }
 
+Vector& Vector::operator=(const Vector& other) {
+        if (this != &other) {
+            delete[] _data;
+            _size = other._size;
+            _capacity = other._size;
+            _multiplicativeCoef = other._multiplicativeCoef;
+            _data = new ValueType[_capacity];
+            std::copy(other._data, other._data + _size, _data);
+        }
+        return *this;
+    }
 Vector::Vector(Vector&& other) noexcept
         : _data(other._data), _size(other._size), _capacity(other._capacity),
           _multiplicativeCoef(other._multiplicativeCoef) {
@@ -44,9 +55,6 @@ void Vector::pushBack(const ValueType& value) {
         _data[_size++] = value;
     }
 
-void Vector::pushFront(const ValueType& value) {
-        insert(value, 0);
-    }
 
 void Vector::insert(const ValueType& value, size_t pos) {
         if (pos > _size) pos = _size;
@@ -59,6 +67,11 @@ void Vector::insert(const ValueType& value, size_t pos) {
         _data[pos] = value;
         ++_size;
     }
+
+void Vector::pushFront(const ValueType& value) {
+        insert(value, 0);
+    }
+
 void Vector::insert(const ValueType* values, size_t size, size_t pos) {
         if (pos > _size) pos = _size;
         const size_t newSize = _size + size;
@@ -85,9 +98,6 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
         
     }
 
-    void Vector::popFront() {
-        erase(0, 1);
-    }
     void Vector::erase(size_t pos, size_t count) {
         if (pos >= _size) return;
         const size_t endPos = std::min(pos + count, _size);
@@ -97,6 +107,11 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
         }
         _size -= shift;
     }
+
+    void Vector::popFront() {
+        erase(0, 1);
+    }
+    
     void Vector::eraseBetween(size_t beginPos, size_t endPos) {
         if (beginPos >= endPos || beginPos >= _size) return;
         endPos = std::min(endPos, _size);
