@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <stdexcept>
 
-Vector::Vector(const ValueType* rawArray, const size_t size, float coef = 2.0f): _data(new ValueType[size]), _size(size), _capacity(size), _multiplicativeCoef(coef) { 
-  std::copy(rawArray, rawArray + size, _data);
-}
+Vector::Vector(const ValueType* rawArray, const size_t size, float coef)
+        : _data(new ValueType[size]), _size(size), _capacity(size), _multiplicativeCoef(coef) {
+        std::copy(rawArray, rawArray + size, _data);
+    }
 
 
 Vector::Vector(const Vector& other): _data(new ValueType[other._size]), _size(other._size), _capacity(other._size), _multiplicativeCoef(other._multiplicativeCoef) {
@@ -81,12 +82,13 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
 
     void Vector::popBack() {
         if (_size > 0) --_size;
+        
     }
 
     void Vector::popFront() {
         erase(0, 1);
     }
-    void Vector::erase(size_t pos, size_t count = 1) {
+    void Vector::erase(size_t pos, size_t count) {
         if (pos >= _size) return;
         const size_t endPos = std::min(pos + count, _size);
         const size_t shift = endPos - pos;
@@ -133,5 +135,6 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
             _capacity = _size;
         }
     }
+    
     Vector::Iterator Vector::begin() { return Iterator(_data); }
     Vector::Iterator Vector::end() { return Iterator(_data + _size); }
