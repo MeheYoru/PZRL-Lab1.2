@@ -51,7 +51,7 @@ Vector::~Vector() {
 void Vector::pushBack(const ValueType& value) {
 
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? _multiplicativeCoef : static_cast<size_t>(_capacity * _multiplicativeCoef));
+            reserve((_capacity == 0?_multiplicativeCoef:static_cast<size_t>(_capacity * _multiplicativeCoef)));
         }
         _data[_size++] = value;
     }
@@ -63,7 +63,7 @@ void Vector::pushFront(const ValueType& value) {
 void Vector::insert(const ValueType& value, size_t pos) {
         if (pos > _size) pos = _size;
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? _multiplicativeCoef : static_cast<size_t>(_capacity * _multiplicativeCoef));
+            reserve((_capacity == 0?_multiplicativeCoef:static_cast<size_t>(_capacity * _multiplicativeCoef)));
         }
         for (size_t i = _size; i > pos; --i) {
             _data[i] = _data[i - 1];
@@ -96,7 +96,7 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
 
     void Vector::popBack() {
         if(_size == 0){ 
-            throw -1;
+            throw std::out_of_range("Error");
         }
         --_size;
         
@@ -114,7 +114,7 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
 
     void Vector::popFront() {
         if(_size == 0){ 
-            throw -1;
+            throw std::out_of_range("Error");
         }
         erase(0, 1);
     }
@@ -150,7 +150,7 @@ void Vector::insert(const ValueType* values, size_t size, size_t pos) {
 
     void Vector::shrinkToFit() {
         if (_capacity > _size) {
-            ValueType* newData = _size == 0 ? nullptr : new ValueType[_size];
+            ValueType* newData = (_size == 0?nullptr:new ValueType[_size]);
             std::copy(_data, _data + _size, newData);
             delete[] _data;
             _data = newData;
